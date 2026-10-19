@@ -2,7 +2,8 @@ package main.java.compiler.core;
 
 public class Main {
     public static void main(String[] args) {
-        String caminho = "testes/codigo_correto.java";
+        String caminho = "compilador-java/testes/codigo_correto.java";
+
 
         System.out.println("Iniciando o compilador...");
         String codigo = FileReaderUtil.lerArquivo(caminho);
