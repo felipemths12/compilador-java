@@ -32,6 +32,7 @@ public class Scanner {
         StringBuilder sb = new StringBuilder();
         while(pos < codigo.length() && Character.isDigit(codigo.charAt(pos))) {
             sb.append(codigo.charAt(pos));
+            pos++;
         }
         return sb.toString();
     }
