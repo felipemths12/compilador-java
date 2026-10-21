@@ -1,9 +1,9 @@
 package main.java.compiler.symboltable;
 
-public record Symbol(String nome, String tipo, Integer linhaDeclaracao) {
+public record Symbol(Integer id, String nome) {
 
     @Override
     public String toString() {
-        return String.format("[ID: %-10s | Tipo: %-10s | Linha: %d]", nome, tipo, linhaDeclaracao);
+        return "#" + id + "," + nome;
     }
 }
