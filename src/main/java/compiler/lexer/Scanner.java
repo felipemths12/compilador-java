@@ -82,7 +82,31 @@ public class Scanner {
                     break;
 
                 case ';':
-                    tokens.add(new Token(TokenType.DELIMITADOR, ";", linha));
+                    tokens.add(new Token(TokenType.PONTO_E_VIRGULA, ";", linha));
+                    pos++;
+                    break;
+
+                case '{': tokens.add(new Token(TokenType.ABRE_CHAVE, "{", linha));
+                    pos++;
+                    break;
+
+                case '}': tokens.add(new Token(TokenType.FECHA_CHAVE, "}", linha));
+                    pos++;
+                    break;
+
+                case '[': tokens.add(new Token(TokenType.ABRE_COLCHETE, "[", linha));
+                    pos++;
+                    break;
+
+                case ']': tokens.add(new Token(TokenType.FECHA_COLCHETE, "]", linha));
+                    pos++;
+                    break;
+
+                case '(': tokens.add(new Token(TokenType.ABRE_PARENTESE, "(", linha));
+                    pos++;
+                    break;
+
+                case ')': tokens.add(new Token(TokenType.FECHA_PARENTESE, ")", linha));
                     pos++;
                     break;
 
