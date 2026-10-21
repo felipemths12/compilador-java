@@ -59,15 +59,17 @@ public class Scanner {
                 continue;
             }
 
-            //Identificar identificadores
+            //Identificar identificadores e palavras reservadas
             if(Character.isLetter(c)) {
                 String lexema = lerIdentificador();
-                Integer idTabela = tabelaSimbolos.inserirOuBuscar(lexema);
-
-                tokens.add(new Token(TokenType.IDENTIFICADOR, "#" + idTabela, linha));
+                if (PALAVRAS_RESERVADAS.contains(lexema)) {
+                    tokens.add(new Token(TokenType.PALAVRA_RESERVADA, lexema, linha));
+                } else {
+                    Integer idTabela = tabelaSimbolos.inserirOuBuscar(lexema);
+                    tokens.add(new Token(TokenType.IDENTIFICADOR, "#" + idTabela, linha));
+                }
                 continue;
             }
-
             if(Character.isDigit(c)) {
                 String lexema = lerNumero();
                 tokens.add(new Token(TokenType.NUMERO, lexema, linha));
