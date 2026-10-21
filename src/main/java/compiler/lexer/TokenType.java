@@ -13,6 +13,7 @@ public enum TokenType {
     ABRE_PARENTESE,
     FECHA_PARENTESE,
     PONTO_E_VIRGULA,
+    PALAVRA_RESERVADA,
     DESCONHECIDO,
     EOF
 }
