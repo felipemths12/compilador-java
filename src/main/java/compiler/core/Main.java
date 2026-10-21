@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        String caminho = "compilador-java/testes/codigo_correto.java";
+        String caminho = "compilador-java/testes/codigoCorreto.java";
 
 
         System.out.println("Iniciando o compilador...");
