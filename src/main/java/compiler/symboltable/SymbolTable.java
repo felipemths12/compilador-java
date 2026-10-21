@@ -6,15 +6,14 @@ import java.util.Map;
 public class SymbolTable {
 
     private Map<String, Symbol> tabela = new LinkedHashMap<>();
+    private Integer proximoId = 1;
 
-    public void inserir(String nome, Symbol simbolo) {
+    public Integer inserirOuBuscar(String nome) {
         if(!tabela.containsKey(nome)) {
-            tabela.put(nome, simbolo);
+            tabela.put(nome, new Symbol(proximoId, nome));
+            proximoId++;
         }
-    }
-
-    public boolean existe(String nome) {
-        return tabela.containsKey(nome);
+        return tabela.get(nome).id();
     }
 
     public void imprimirTabela() {
