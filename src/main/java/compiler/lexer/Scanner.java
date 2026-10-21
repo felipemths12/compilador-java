@@ -53,9 +53,9 @@ public class Scanner {
             //Identificar identificadores
             if(Character.isLetter(c)) {
                 String lexema = lerIdentificador();
-                tokens.add(new Token(TokenType.IDENTIFICADOR, lexema, linha));
+                Integer idTabela = tabelaSimbolos.inserirOuBuscar(lexema);
 
-                tabelaSimbolos.inserir(lexema, new Symbol(lexema, "VARIAVEL", linha));
+                tokens.add(new Token(TokenType.IDENTIFICADOR, "#" + idTabela, linha));
                 continue;
             }
 
