@@ -4,6 +4,7 @@ import main.java.compiler.lexer.Scanner;
 import main.java.compiler.lexer.Token;
 import main.java.compiler.parser.Parser;
 import main.java.compiler.parser.ast.AstNode;
+import main.java.compiler.semantic.SemanticAnalyzer;
 import main.java.compiler.symboltable.SymbolTable;
 
 import java.util.List;
@@ -41,6 +42,10 @@ public class Main {
 
         if (arvore != null) {
             System.out.println(arvore.imprimir(""));
+
+            System.out.println("\n--- INICIANDO ANÁLISE SEMÂNTICA ---");
+            SemanticAnalyzer semantico = new SemanticAnalyzer(arvore);
+            semantico.analisar();
         } else {
             System.out.println("Nenhuma atribuição válida encontrada ou erro sintático.");
         }
