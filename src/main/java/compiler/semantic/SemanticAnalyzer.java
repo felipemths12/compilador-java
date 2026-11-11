@@ -8,6 +8,10 @@ import main.java.compiler.parser.ast.TermoNode;
 public class SemanticAnalyzer {
     private AstNode arvore;
     private Boolean codigoValido = true;
+
+    public SemanticAnalyzer(AstNode arvore) {
+        this.arvore = arvore;
+    }
     
     private void validarNo(AstNode no) {
         if (no instanceof AtribuicaoNode atribuicao) {
