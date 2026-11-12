@@ -76,6 +76,21 @@ public class Scanner {
                 continue;
             }
 
+            if (c == '.') {
+                tokens.add(new Token(TokenType.PONTO, ".", linha)) {
+                    pos++;
+                    continue;
+                }
+            }
+
+            if (c == '"') {
+                pos++;
+                StringBuilder texto = new StringBuilder();
+                while (pos < codigo.length() && codigo.charAt(pos) != '"') {
+                    texto.append(codigo.charAt(pos));
+                }
+            }
+
             switch (c) {
                 case '=':
                     tokens.add(new Token(TokenType.OPERADOR_ATRIBUICAO, "=", linha));
