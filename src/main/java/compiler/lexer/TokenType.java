@@ -15,5 +15,7 @@ public enum TokenType {
     PONTO_E_VIRGULA,
     PALAVRA_RESERVADA,
     DESCONHECIDO,
+    PONTO,
+    STRING_LITERAL,
     EOF
 }
