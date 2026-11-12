@@ -77,10 +77,9 @@ public class Scanner {
             }
 
             if (c == '.') {
-                tokens.add(new Token(TokenType.PONTO, ".", linha)) {
+                tokens.add(new Token(TokenType.PONTO, ".", linha));
                     pos++;
                     continue;
-                }
             }
 
             if (c == '"') {
