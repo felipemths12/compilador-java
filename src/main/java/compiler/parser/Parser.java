@@ -76,6 +76,19 @@ public class Parser {
         while(tokenAtual().tipo() != TokenType.EOF) {
             if(tokenAtual().tipo() == TokenType.IDENTIFICADOR) {
                 if(pos + 1 < tokens.size() && tokens.get(pos + 1).tipo() == TokenType.OPERADOR_ATRIBUICAO) {
+
+                    //ponto de retorno
+                    int posicaoSalva = pos;
+
+                    //tentativa de montar a árvore
+                    AstNode tentativa = parseAtribuicao();
+
+                    if (tentativa != null) {
+                        return tentativa; //conseguiu montar a árvore
+                    } else {
+                        pos = posicaoSalva; //não conseguiu e retorna ao ponto de retorno
+                    }
+
                     return parseAtribuicao();
                 }
             }
