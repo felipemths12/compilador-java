@@ -5,11 +5,13 @@ import main.java.compiler.lexer.TokenType;
 import main.java.compiler.parser.ast.*;
 
 import java.util.List;
+import java.util.Set;
 
 public class Parser {
     private List<Token> tokens;
     private int pos = 0;
 
+    private static final Set<String> TIPOS_VALIDOS = Set.of("int", "double", "float", "boolean", "char", "byte", "short", "long", "String");
     public Parser(List<Token> tokens) {
         this.tokens = tokens;
     }
