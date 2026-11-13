@@ -2,10 +2,7 @@ package main.java.compiler.parser;
 
 import main.java.compiler.lexer.Token;
 import main.java.compiler.lexer.TokenType;
-import main.java.compiler.parser.ast.AstNode;
-import main.java.compiler.parser.ast.AtribuicaoNode;
-import main.java.compiler.parser.ast.ExpressaoNode;
-import main.java.compiler.parser.ast.TermoNode;
+import main.java.compiler.parser.ast.*;
 
 import java.util.List;
 
@@ -39,6 +36,27 @@ public class Parser {
             return new TermoNode("NUM", t.lexema());
         } else {
             System.err.println("Erro Sintático: Esperado ID ou NUM.");
+            return null;
+        }
+    }
+
+    //Regra: <Declaracao>
+    private AstNode parseDeclaracao() {
+        String tipoDado = tokenAtual().lexema();
+        avancar();
+
+        String idNome = tokenAtual().lexema();
+        avancar();
+
+        avancar();
+
+        AstNode expressao = parseExpressao();
+
+        if (tokenAtual().tipo() == TokenType.PONTO_E_VIRGULA) {
+            avancar();
+            return new DeclaracaoNode(tipoDado, idNome, expressao);
+        } else {
+            System.err.println("Erro: Faltou ';' na declaração.");
             return null;
         }
     }
