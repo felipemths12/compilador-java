@@ -38,6 +38,27 @@ public class Parser {
         Token t = tokenAtual();
         if (t.tipo() == TokenType.IDENTIFICADOR) {
             avancar();
+
+            if (tokenAtual().tipo() == TokenType.PONTO) {
+                avancar();
+
+                if (tokenAtual().tipo() == TokenType.IDENTIFICADOR) {
+                    String metodo = tokenAtual().lexema();
+                    avancar();
+
+                    if (tokenAtual().tipo() == TokenType.ABRE_PARENTESE) {
+                        avancar();
+
+                        if (tokenAtual().tipo() == TokenType.FECHA_PARENTESE) {
+                            avancar();
+
+                            return new TermoNode("METODO", t.lexema() + "." + metodo + "()");
+                        }
+                    }
+                }
+                return null;
+            }
+
             return new TermoNode("ID", t.lexema());
         } else if (t.tipo() == TokenType.NUMERO) {
             avancar();
