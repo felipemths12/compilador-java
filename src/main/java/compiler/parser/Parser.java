@@ -32,69 +32,87 @@ public class Parser {
         pos++;
     }
 
-    //Regra: <Termo>
+    //Regra: <termo> ::= <identificador> | <numero>
     private AstNode parseTermo() {
         Token t = tokenAtual();
-        if(t.tipo() == TokenType.IDENTIFICADOR) {
+        if (t.tipo() == TokenType.IDENTIFICADOR) {
             avancar();
             return new TermoNode("ID", t.lexema());
         } else if (t.tipo() == TokenType.NUMERO) {
             avancar();
             return new TermoNode("NUM", t.lexema());
-        } else {
-            System.err.println("Erro Sintático: Esperado ID ou NUM.");
-            return null;
         }
+
+        // Retorna null silenciosamente se achar uma letra/palavra onde devia ter um número,
+        // permitindo que o 'parse()' recupere o erro e continue varrendo.
+        return null;
     }
 
     //Regra: <Declaracao>
     private AstNode parseDeclaracao() {
         String tipoDado = tokenAtual().lexema();
-        avancar();
+        avancar(); //consome a palavra reservada (ex: 'int')
 
-        String idNome = tokenAtual().lexema();
-        avancar();
-
-        avancar();
-
-        AstNode expressao = parseExpressao();
-
-        if (tokenAtual().tipo() == TokenType.PONTO_E_VIRGULA) {
-            avancar();
-            return new DeclaracaoNode(tipoDado, idNome, expressao);
-        } else {
-            System.err.println("Erro: Faltou ';' na declaração.");
+        // Verificação de segurança estrutural
+        if (tokenAtual().tipo() != TokenType.IDENTIFICADOR) {
             return null;
         }
+
+        String idNome = tokenAtual().lexema();
+        avancar(); //consome a variável
+
+        if (tokenAtual().tipo() != TokenType.OPERADOR_ATRIBUICAO) {
+            return null;
+        }
+        avancar(); //consome o sinal '='
+
+        AstNode expressao = parseExpressao(); // Desce a árvore para resolver a matemática
+        if (expressao == null) return null;
+
+        if (tokenAtual().tipo() == TokenType.PONTO_E_VIRGULA) {
+            avancar(); // consome ';'
+            return new DeclaracaoNode(tipoDado, idNome, expressao);
+        }
+
+        return null;
     }
 
-    //Regra: <Expressao>
+    //Regra: <Expressao> ::= <termo> ("+" | "-") <termo> | <termo>
     private AstNode parseExpressao() {
         AstNode esquerdo = parseTermo();
+        if (esquerdo == null) {
+            return null;
+        }
 
-        if(tokenAtual().tipo() == TokenType.OPERADOR_SOMA || tokenAtual().tipo() == TokenType.OPERADOR_SUBTRACAO) {
+        if (tokenAtual().tipo() == TokenType.OPERADOR_SOMA || tokenAtual().tipo() == TokenType.OPERADOR_SUBTRACAO) {
             String operador = tokenAtual().lexema();
-            avancar();
+            avancar(); // consome "+" ou "-"
+
             AstNode direito = parseTermo();
+            if (direito == null) return null;
+
             return new ExpressaoNode(esquerdo, operador, direito);
         }
         return esquerdo;
     }
 
-    //Regra: <Atribuicao>
+    //Regra: <Atribuicao> ::= <identificador> "=" <Expressao> ";"
     private AstNode parseAtribuicao() {
         String idNome = tokenAtual().lexema();
-        avancar();
-        avancar();
+        avancar(); // consome o identificador
+        avancar(); // consome o "="
 
-        AstNode expressao = parseExpressao();
-        if(tokenAtual().tipo() == TokenType.PONTO_E_VIRGULA) {
-            avancar();
-            return new AtribuicaoNode(idNome, expressao);
-        } else {
-            System.err.println("Erro Sintático: Esperado ';' no final da atribuição.");
+        AstNode expressao = parseExpressao(); // Desce na gramática
+        if (expressao == null) {
             return null;
         }
+
+        if (tokenAtual().tipo() == TokenType.PONTO_E_VIRGULA) {
+            avancar(); // consome o ";"
+            return new AtribuicaoNode(idNome, expressao);
+        }
+
+        return null;
     }
 
     public AstNode parse() {
