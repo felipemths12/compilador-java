@@ -38,16 +38,25 @@ public class Main {
 
         System.out.println("\n--- INICIANDO ANÁLISE SINTÁTICA ---");
         Parser parser = new Parser(tokens);
-        AstNode arvore = parser.parse();
+        List<AstNode> arvores = parser.parse();
 
-        if (arvore != null) {
-            System.out.println(arvore.imprimir(""));
+        if (!arvores.isEmpty()) {
+            for (int i = 0; i < arvores.size(); i++) {
+                System.out.println("--- ÁRVORE " + (i +1) + "---");
+                System.out.println(arvores.get(i).imprimir("  "));
+            }
 
-            System.out.println("\n--- INICIANDO ANÁLISE SEMÂNTICA ---");
-            SemanticAnalyzer semantico = new SemanticAnalyzer(arvore);
-            semantico.analisar();
+            System.out.println("--- ANÁLISE SEMÂNTICA ---");
+
+            for (int i = 0; i < arvores.size(); i++) {
+                System.out.println("Validando Árvore " + (i + 1) + ":");
+                SemanticAnalyzer semantico = new SemanticAnalyzer(arvores.get(i));
+                semantico.analisar();
+                System.out.println();
+            }
+
         } else {
-            System.out.println("Nenhuma atribuição válida encontrada ou erro sintático.");
+            System.out.println("Nenhuma árvore encontrada.");
         }
     }
 }
