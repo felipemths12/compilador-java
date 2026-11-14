@@ -19,6 +19,11 @@ public class Main {
         System.out.println("Iniciando o compilador...");
         String codigo = FileReaderUtil.lerArquivo(caminho);
 
+        if (codigo.isEmpty()) {
+            System.err.println("Encerrando o programa pois o arquivo não foi carregado.");
+            return;
+        }
+
         if (!codigo.isEmpty()) {
             System.out.println("Arquivo lido com sucesso!");
             System.out.println("Conteúdo lido: " + codigo);
