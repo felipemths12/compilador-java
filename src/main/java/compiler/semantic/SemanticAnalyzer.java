@@ -2,23 +2,28 @@ package main.java.compiler.semantic;
 
 import main.java.compiler.parser.ast.*;
 
+import java.util.Set;
+
 public class SemanticAnalyzer {
     private AstNode arvore;
     private Boolean codigoValido = true;
 
-    public SemanticAnalyzer(AstNode arvore) {
+    private Set<String> variaveisDeclaradas; //armazenar variáveis já declaradas
+
+    public SemanticAnalyzer(AstNode arvore, Set<String> variaveisDeclaradas) {
         this.arvore = arvore;
+        this.variaveisDeclaradas = variaveisDeclaradas;
     }
     
     private void validarNo(AstNode no) {
 
         //Regra de Declaração
         if (no instanceof DeclaracaoNode declaracao) {
+            variaveisDeclaradas.add(declaracao.id());
             validarNo(declaracao.expressao());
         }
-
         //Regra de Atribuição
-        if (no instanceof AtribuicaoNode atribuicao) {
+        else if (no instanceof AtribuicaoNode atribuicao) {
             validarNo(atribuicao.expressao());
         } else if (no instanceof ExpressaoNode expressao) {
             validarNo(expressao.esquerdo());
@@ -27,11 +32,11 @@ public class SemanticAnalyzer {
             if (termo.tipoRegra().equals("ID")) {
                 String idRef = termo.valor();
 
-                if (idRef == null || idRef.isEmpty()) {
-                    System.err.println("  [ERRO SEMÂNTICO] Variável corrompida ou não encontrada");
+                if (!variaveisDeclaradas.contains(idRef)) {
+                    System.err.println("  [ERRO SEMÂNTICO] Variável não encontrada");
                     codigoValido = false;
                 } else {
-                    System.out.println("  [Semântico] Validando integridade e acesso à variável: " + idRef);
+                    System.out.println("  [Semântico] Variável verificada e existente: " + idRef);
                 }
             }
         }
