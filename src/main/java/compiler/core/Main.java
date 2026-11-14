@@ -7,7 +7,9 @@ import main.java.compiler.parser.ast.AstNode;
 import main.java.compiler.semantic.SemanticAnalyzer;
 import main.java.compiler.symboltable.SymbolTable;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
@@ -48,9 +50,11 @@ public class Main {
 
             System.out.println("--- ANÁLISE SEMÂNTICA ---");
 
+            Set<String> memoriaVariaveis = new HashSet<>();
+
             for (int i = 0; i < arvores.size(); i++) {
                 System.out.println("Validando Árvore " + (i + 1) + ":");
-                SemanticAnalyzer semantico = new SemanticAnalyzer(arvores.get(i));
+                SemanticAnalyzer semantico = new SemanticAnalyzer(arvores.get(i), memoriaVariaveis);
                 semantico.analisar();
                 System.out.println();
             }
