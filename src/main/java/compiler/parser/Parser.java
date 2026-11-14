@@ -4,6 +4,7 @@ import main.java.compiler.lexer.Token;
 import main.java.compiler.lexer.TokenType;
 import main.java.compiler.parser.ast.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -115,7 +116,8 @@ public class Parser {
         return null;
     }
 
-    public AstNode parse() {
+    public List<AstNode> parse() {
+        List<AstNode> arvoresEncontradas = new ArrayList<>();
         while(tokenAtual().tipo() != TokenType.EOF) {
 
             //Declaração de variável com tipo
@@ -124,7 +126,8 @@ public class Parser {
                 AstNode arvoreDeclaracao = parseDeclaracao();
 
                 if (arvoreDeclaracao != null) {
-                    return arvoreDeclaracao; // Retorna a arvore
+                    arvoresEncontradas.add(arvoreDeclaracao); //Guarda a arvore
+                    continue;
                 } else {
                     pos = posicaoSalva; // Volta a posição salva
                 }
@@ -137,7 +140,8 @@ public class Parser {
                     AstNode tentativa = parseAtribuicao();
 
                     if (tentativa != null) {
-                        return tentativa;
+                        arvoresEncontradas.add(tentativa);
+                        continue;
                     } else {
                         pos = posicaoSalva;
                     }
