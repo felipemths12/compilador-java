@@ -23,6 +23,11 @@ public class Parser {
         return new Token(TokenType.EOF, "", -1);
     }
 
+    private boolean isTokenTipoDado(Token token) {
+        return (token.tipo() == TokenType.PALAVRA_RESERVADA || token.tipo() == TokenType.IDENTIFICADOR
+        && TIPOS_VALIDOS.contains(token.lexema()));
+    }
+
     private void avancar() {
         pos++;
     }
