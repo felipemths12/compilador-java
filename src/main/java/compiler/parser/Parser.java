@@ -25,8 +25,8 @@ public class Parser {
     }
 
     private boolean isTokenTipoDado(Token token) {
-        return (token.tipo() == TokenType.PALAVRA_RESERVADA || token.tipo() == TokenType.IDENTIFICADOR
-        && TIPOS_VALIDOS.contains(token.lexema()));
+        return (token.tipo() == TokenType.PALAVRA_RESERVADA || token.tipo() == TokenType.IDENTIFICADOR)
+        && TIPOS_VALIDOS.contains(token.lexema());
     }
 
     private void avancar() {
