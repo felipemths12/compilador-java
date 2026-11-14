@@ -55,7 +55,11 @@ public class Main {
             for (int i = 0; i < arvores.size(); i++) {
                 System.out.println("Validando Árvore " + (i + 1) + ":");
                 SemanticAnalyzer semantico = new SemanticAnalyzer(arvores.get(i), memoriaVariaveis);
-                semantico.analisar();
+                boolean passou = semantico.analisar();
+                if (!passou) {
+                    System.out.println("\n[COMPILAÇÃO ABORTADA] ERRO SEMÂNTICO ENCONTRADO");
+                    break;
+                }
                 System.out.println();
             }
 

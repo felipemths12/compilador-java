@@ -33,7 +33,7 @@ public class SemanticAnalyzer {
                 String idRef = termo.valor();
 
                 if (!variaveisDeclaradas.contains(idRef)) {
-                    System.err.println("  [ERRO SEMÂNTICO] Variável não encontrada");
+                    System.out.println("  [ERRO SEMÂNTICO] Variável não encontrada: " + idRef);
                     codigoValido = false;
                 } else {
                     System.out.println("  [Semântico] Variável verificada e existente: " + idRef);
@@ -42,9 +42,9 @@ public class SemanticAnalyzer {
         }
     }
 
-    public void analisar() {
+    public boolean analisar() {
         if (arvore == null) {
-            return;
+            return false;
         }
 
         validarNo(arvore);
@@ -52,5 +52,7 @@ public class SemanticAnalyzer {
         if (codigoValido) {
             System.out.println("  [OK] Nenhum erro semântico encontrado.");
         }
+
+        return codigoValido;
     }
 }
