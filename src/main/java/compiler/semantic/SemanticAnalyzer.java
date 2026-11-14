@@ -1,9 +1,6 @@
 package main.java.compiler.semantic;
 
-import main.java.compiler.parser.ast.AstNode;
-import main.java.compiler.parser.ast.AtribuicaoNode;
-import main.java.compiler.parser.ast.ExpressaoNode;
-import main.java.compiler.parser.ast.TermoNode;
+import main.java.compiler.parser.ast.*;
 
 public class SemanticAnalyzer {
     private AstNode arvore;
@@ -14,6 +11,13 @@ public class SemanticAnalyzer {
     }
     
     private void validarNo(AstNode no) {
+
+        //Regra de Declaração
+        if (no instanceof DeclaracaoNode declaracao) {
+            validarNo(declaracao.expressao());
+        }
+
+        //Regra de Atribuição
         if (no instanceof AtribuicaoNode atribuicao) {
             validarNo(atribuicao.expressao());
         } else if (no instanceof ExpressaoNode expressao) {
