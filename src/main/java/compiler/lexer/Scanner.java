@@ -87,7 +87,11 @@ public class Scanner {
                 StringBuilder texto = new StringBuilder();
                 while (pos < codigo.length() && codigo.charAt(pos) != '"') {
                     texto.append(codigo.charAt(pos));
+                    pos++;
                 }
+                tokens.add(new Token(TokenType.STRING_LITERAL, texto.toString(), linha));
+                pos++;
+                continue;
             }
 
             switch (c) {
