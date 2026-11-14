@@ -99,22 +99,30 @@ public class Parser {
 
     public AstNode parse() {
         while(tokenAtual().tipo() != TokenType.EOF) {
-            if(tokenAtual().tipo() == TokenType.IDENTIFICADOR) {
-                if(pos + 1 < tokens.size() && tokens.get(pos + 1).tipo() == TokenType.OPERADOR_ATRIBUICAO) {
 
-                    //ponto de retorno
-                    int posicaoSalva = pos;
+            //Declaração de variável com tipo
+            if (isTokenTipoDado(tokenAtual())) {
+                int posicaoSalva = pos; // Salva o estado atual
+                AstNode arvoreDeclaracao = parseDeclaracao();
 
-                    //tentativa de montar a árvore
+                if (arvoreDeclaracao != null) {
+                    return arvoreDeclaracao; // Retorna a arvore
+                } else {
+                    pos = posicaoSalva; // Volta a posição salva
+                }
+            }
+
+            //Atribuição simples sem tipo
+            else if (tokenAtual().tipo() == TokenType.IDENTIFICADOR) {
+                if (pos + 1 < tokens.size() && tokens.get(pos + 1).tipo() == TokenType.OPERADOR_ATRIBUICAO) {
+                    int posicaoSalva = pos; // Salva o estado atual
                     AstNode tentativa = parseAtribuicao();
 
                     if (tentativa != null) {
-                        return tentativa; //conseguiu montar a árvore
+                        return tentativa;
                     } else {
-                        pos = posicaoSalva; //não conseguiu e retorna ao ponto de retorno
+                        pos = posicaoSalva;
                     }
-
-                    return parseAtribuicao();
                 }
             }
             avancar();
