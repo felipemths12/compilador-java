@@ -149,6 +149,6 @@ public class Parser {
             }
             avancar();
         }
-        return null;
+        return arvoresEncontradas;
     }
 }
