@@ -5,7 +5,7 @@ public class codigoCorreto {
 
         Scanner entrada = new Scanner(System.in);
 
-        int x = a + 5;
+        int a = 5;
 
         System.out.print("Digite o primeiro número: ");
         int numero1 = entrada.nextInt();
